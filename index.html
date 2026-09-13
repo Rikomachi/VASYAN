@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C.A-I-O | Limbus Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <h1>C.A-I-O</h1>
+        <p class="subtitle">All-In-One Mirror Dungeon Calculator</p>
+        
+        <div class="controls-section">
+            
+            <!-- 1. Выбор Грешника -->
+            <div class="input-group">
+                <label for="sinnerId">Target Sinner:</label>
+                <div class="sinner-gallery" id="sinnerGallery">
+                    <img src="temp_assets/Yi_Sang_ID_Photo_2.png" class="sinner-icon" data-sinner="1" alt="Yi Sang">
+                    <img src="temp_assets/Faust_ID_Photo_2.png" class="sinner-icon" data-sinner="2" alt="Faust">
+                    <img src="temp_assets/Don_Quixote_ID_Photo_2.png" class="sinner-icon" data-sinner="3" alt="Don Quixote">
+                    <img src="temp_assets/Ryōshū_ID_Photo_2.png" class="sinner-icon" data-sinner="4" alt="Ryōshū">
+                    <img src="temp_assets/Meursault_ID_Photo_2.png" class="sinner-icon" data-sinner="5" alt="Meursault">
+                    <img src="temp_assets/Hong_Lu_ID_Photo_2.png" class="sinner-icon" data-sinner="6" alt="Hong Lu">
+                    <img src="temp_assets/Heathcliff_ID_Photo_2.png" class="sinner-icon" data-sinner="7" alt="Heathcliff">
+                    <img src="temp_assets/Ishmael_ID_Photo_2.png" class="sinner-icon" data-sinner="8" alt="Ishmael">
+                    <img src="temp_assets/Rodion_ID_Photo_2.png" class="sinner-icon" data-sinner="9" alt="Rodion">
+                    <img src="temp_assets/Sinclair_ID_Photo_2.png" class="sinner-icon" data-sinner="11" alt="Sinclair">
+                    <img src="temp_assets/Outis_ID_Photo_2.png" class="sinner-icon" data-sinner="12" alt="Outis">
+                    <img src="temp_assets/Gregor_ID_Photo_2.png" class="sinner-icon" data-sinner="13" alt="Gregor">
+                </div>
+            </div>
+
+            <!-- 2. Панель прокачки -->
+           <div class="input-group">
+    <label>Target type:</label>
+    <div class="icon-selector">
+        <!-- Айдишки -->
+        <img src="assets/IDNumber1.png" class="type-icon selected" data-type="baseId" alt="Base ID">
+        <img src="assets/IDNumber2.png" class="type-icon" data-type="id00" alt="ID: 00">
+        <img src="assets/IDNumber3.png" class="type-icon" data-type="id000" alt="ID: 000">
+        <!-- E.G.O (добавляем отступ для красоты) -->
+        <img src="assets/ZAYIN.png" class="type-icon" data-type="egoZayin" alt="E.G.O: ZAYIN" style="margin-left: 15px;">
+        <img src="assets/TETH.png" class="type-icon" data-type="egoTeth" alt="E.G.O: TETH">
+        <img src="assets/HE.png" class="type-icon" data-type="egoHe" alt="E.G.O: HE">
+        <img src="assets/WAW.png" class="type-icon" data-type="egoWaw" alt="E.G.O: WAW">
+    </div>
+</div>
+
+<div class="input-group">
+    <label>Uptie|Threadspin Tier:</label>
+    <div class="icon-selector">
+        <!-- По твоей базе в JS: 1 = Uptie 2, 2 = Uptie 3, 3 = Uptie 4 -->
+        <img src="assets/Tier1.png" class="level-icon selected" data-level="1" alt="I">
+        <img src="assets/Tier2.png" class="level-icon" data-level="2" alt="II">
+        <img src="assets/Tier3.png" class="level-icon" data-level="3" alt="III">
+        <img src="assets/Tier4.png" class="level-icon" data-level="4" alt="IV" id="tierIVIcon" style="display: none;">
+    </div>
+</div>
+
+                <button id="addUpgradeBtn">Add to calculation</button>
+            </div>
+
+            <!-- 3. Корзина (теперь отдельным блоком) -->
+            <div class="cart-section" id="cartSection">
+                <h3>Added targets:</h3>
+                <ul id="cartList" class="cart-list">
+                    <!-- Сюда скрипт будет добавлять выбранные апгрейды -->
+                </ul>
+            </div>
+            
+            <!-- 4. Глобальные настройки -->
+            <div class="input-group">
+                <label for="paidBp">Paid Battle Pass:</label>
+                <select id="paidBp">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="mdType">Dungeon Type:</label>
+                <select id="mdType">
+                    <option value="1">Normal (No Bonus)</option>
+                    <option value="2">Normal (Weekly Bonus)</option>
+                    <option value="3">Hard (Weekly Bonus)</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="luxType">Thread Luxcavation:</label>
+                <select id="luxType">
+                    <option value="1">Manual + Daily</option>
+                    <option value="2">Skip + Daily</option>
+                    <option value="3">Manual (w/out Daily)</option>
+                    <option value="4">Skip (w/out Daily)</option>
+                </select>
+            </div>
+
+        </div> <!-- Закрываем controls-section -->
+
+        <!-- 5. Результаты -->
+        <div class="results-section">
+            <h2>Grind Estimation</h2>
+            <ul class="resource-list">
+                <li>
+        <img src="assets/Dungeon_Entrance_Icon.png" class="res-icon" alt="MD Runs">
+        <span>MD Runs: <strong id="outRuns">0</strong></span>
+    </li>
+    <li>
+        <img src="assets/Blubbering_Toad_Core_Icon.png" class="res-icon" alt="Luxcavation">
+        <span>Luxcavation Runs: <strong id="outLuxRuns">0</strong></span>
+                </li>
+                <li>
+                    <img src="assets/Universal_Shards.png" class="res-icon" alt="Shards">
+                    <span>Target Egoshards: <strong id="outShards">0</strong></span>
+                </li>
+                <li>
+                    <img src="assets/Thread.png" class="res-icon" alt="Threads">
+                    <span>Required Threads: <strong id="outThreads">0</strong></span>
+                </li>
+                <li>
+                    <img src="assets/Enkephalin_Module.png" class="res-icon" alt="Modules">
+                    <span>Total Modules Cost: <strong id="outModules">0</strong></span>
+                </li>
+            </ul>
+        </div>
+
+    </div> <!-- Закрываем app-container -->
+
+    <script src="script.js"></script>
+</body>
+</html>
